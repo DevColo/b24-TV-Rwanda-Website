@@ -1,0 +1,21 @@
+<div class="term-order-by-asc">
+
+  {% set tags = query.taxonomy
+    .type('tags')
+    .orderBy('name ASC')
+    .all() %}
+
+  {{ tags|map(item => item.name.0.value)|join }}
+
+</div>
+
+<div class="term-order-by-desc">
+
+  {% set tags = query.taxonomy
+    .type('tags')
+    .orderBy('name DESC')
+    .all() %}
+
+  {{ tags|map(item => item.name.0.value)|join }}
+
+</div>

@@ -1,0 +1,12 @@
+name: twig_query
+type: module
+description: Provides an interface for querying data inside of Twig templates
+
+core_version_requirement: ^8 || ^9 || ^10
+dependencies:
+  - drupal:system (>=8.7)
+
+# Information added by Drupal.org packaging script on 2022-09-12
+version: '1.0.4'
+project: 'twig_query'
+datestamp: 1662968545

@@ -1,0 +1,98 @@
+{#
+$theme_path = base_path() . drupal_get_path('theme', 'edelman_redesign');
+$getcustomnodes = $variables['content']['press_items'];
+$press_block = block_imageblock_get(6);
+$press_file = file_load($press_block['fid']); $pressfile_uri = $press_file->uri; $press_banner_url = file_create_url($pressfile_uri);
+$full_block_url = $base_url .'/admin/structure/block/manage/imageblock/6/configure';
+if($pressfile_uri != ''):
+    $back_image_url = 'style="background-image:url('. $press_banner_url .')"';
+else:
+    $back_image_url = 'none';
+endif;
+#}
+
+{% if 'administrator' in user.getroles(TRUE) %}
+    <a title="Edit" class="edit-icon" href="{{ base_path }}/block/9"></a>
+{% endif %}
+<div class="container">
+    <div class="gallery-section">
+        <div class="head-wrap">
+            <h1>{{ press_block.info.value|t }}</h1>
+            {{ press_block.body.0.value|t }}
+        </div>
+      
+        <div class="press-page-grid">
+            <div class="row grid">
+                {% for node in press_items %}
+                   <a class="grid-item grid-gallery col-md-4 col-sm-6 col-12" title="{{ node.0.item.title|t }}" data-credits="Edward Franklin" data-design="Edward Franklin, Pete Fallon, echo" data-check="press" href="#gallery-{{ node.0.item.nid }}">
+                       <img src="{{ node.0.item.thumb_landing_image|file_url }}" alt="gallery-popup">
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+        {% for node in press_items %}
+        {#{ dump(node)}#}
+    
+                <div id="gallery-{{ node.0.item.nid }}" class="hidden">
+                    {% for img in node %}
+            
+                        {% if img.image_details.field_image_title is defined and img.image_details.field_image_title is not empty %}
+                            {% set img_title = img.image_details.field_image_title.0.value %}
+                        {% else %}
+                            {% set img_title = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_photographer_title is defined and img.image_details.field_photographer_title is not empty %}
+                            {% set photo_title = img.image_details.field_photographer_title.0.value %}
+                        {% else %}
+                            {% set photo_title = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_design_title is defined and img.image_details.field_design_title is not empty %}
+                            {% set design_title = img.image_details.field_design_title.0.value %}
+                        {% else %}
+                            {% set design_title = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_image_description is defined and img.image_details.field_image_description is not empty %}
+                            {% set img_desc = img.image_details.field_image_description.0.value %}
+                        {% else %}
+                            {% set img_desc = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_products_details is defined and img.image_details.field_products_details is not empty %}
+                            {% set prod_details = img.image_details.field_products_details.0.value %}
+                        {% else %}
+                            {% set prod_details = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_leather_details is defined and img.image_details.field_leather_details is not empty %}
+                            {% set leather_details = img.image_details.field_leather_details.0.value %}
+                        {% else %}
+                            {% set leather_details = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_landing_full_image is defined and img.image_details.field_landing_full_image is not empty %}
+                            {% set landing_full_img = img.image_details.field_landing_full_image %}
+                        {% else %}
+                            {% set landing_full_img = '' %}
+                        {% endif %}
+
+
+                        <span title="{{ img_title|t }}" data-credits="{{ photo_title|t }}" data-design="{{ design_title|t }}" data-check="press" href="{{ landing_full_img|file_url }}">
+                            <div class="data-desc d-none">
+                                <p>{{ img_desc|t }}</p>
+                            </div>
+                            <div class="products-links d-none">
+                                {{ prod_details|t }}
+                            </div>
+                            <div class="leather-links d-none">
+                                {{ leather_details|t }}
+                            </div>
+                        </span>
+                    {% endfor %}
+                </div>
+        {% endfor %}
+
+    </div>
+</div>

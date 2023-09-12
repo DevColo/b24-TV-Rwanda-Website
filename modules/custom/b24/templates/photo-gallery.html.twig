@@ -1,0 +1,103 @@
+{% if 'administrator' in user.getroles(TRUE) %}
+    <a title="Edit" class="edit-icon" href="{{ base_path }}/block/10"></a>
+{% endif %}
+
+ <div class="gallery-section">
+    <div class="head-wrap">
+        <h1>{{ ph_gallery_block.info.value|t }}</h1>
+    </div>
+    {{ ph_gallery_block.body.0.value|t }}
+    <div class="filter-gallery">
+        <span>{{ 'Filter:'|t }}</span>
+        <ul class="button-group filters-button-group">
+            <li><a class="active" href="javascript:;" data-filter="*">{{ 'All'|t }}</a></li>
+            {% for filter_list in photo_gallery_filters %}
+                {% set filter_list_name = filter_list.name.value %}
+                {% set filter_name = filter_list_name|preg_replace('/[^a-zA-Z]/', '-') %}
+               <li><a href="javascript:;" data-filter=".{{ filter_name|lower }}">{{ filter_list_name|t }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="masonry-gallery">
+        <div class="dummy-grid">
+            <div class="animated-background"></div>
+            <div class="animated-background"></div>
+            <div class="animated-background"></div>
+        </div>
+        <div class="grid">
+            {% for gallery_item in ph_gallery_items %}
+                <a class="grid-item grid-gallery {{ gallery_item.0.item.filter_name }} photogallery_{{ gallery_item.0.item.nid }}" title="{{ gallery_item.0.item.title }}" data-credits="Edward Franklin" data-design="Edward Franklin, Pete Fallon, echo" data-check="photo" href="#gallery-{{ gallery_item.0.item.nid }}">
+                        <img src="{{ gallery_item.0.item.thumb_landing_image|file_url }}" alt="gallery-popup">
+                    </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% for gallery_item in ph_gallery_items %}
+                <div id="gallery-{{ gallery_item.0.item.nid }}" class="hidden">
+                    {% for img in gallery_item %}
+            
+                        {% if img.image_details.field_image_title is defined and img.image_details.field_image_title is not empty %}
+                            {% set img_title = img.image_details.field_image_title.0.value %}
+                        {% else %}
+                            {% set img_title = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_photographer_title is defined and img.image_details.field_photographer_title is not empty %}
+                            {% set photo_title = img.image_details.field_photographer_title.0.value %}
+                        {% else %}
+                            {% set photo_title = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_design_title is defined and img.image_details.field_design_title is not empty %}
+                            {% set design_title = img.image_details.field_design_title.0.value %}
+                        {% else %}
+                            {% set design_title = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_image_description is defined and img.image_details.field_image_description is not empty %}
+                            {% set img_desc = img.image_details.field_image_description.0.value %}
+                        {% else %}
+                            {% set img_desc = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_products_details is defined and img.image_details.field_products_details is not empty %}
+                            {% set prod_details = img.image_details.field_products_details.0.value %}
+                        {% else %}
+                            {% set prod_details = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_leather_details is defined and img.image_details.field_leather_details is not empty %}
+                            {% set leather_details = img.image_details.field_leather_details.0.value %}
+                        {% else %}
+                            {% set leather_details = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_landing_full_image is defined and img.image_details.field_landing_full_image is not empty %}
+                            {% set landing_full_img = img.image_details.field_landing_full_image %}
+                        {% else %}
+                            {% set landing_full_img = '' %}
+                        {% endif %}
+
+                        {% if img.image_details.field_leather_additional_details is defined and img.image_details.field_leather_additional_details is not empty %}
+                            {% set add_leather_detials = img.image_details.field_leather_additional_details.0.value %}
+                        {% else %}
+                            {% set add_leather_detials = '' %}
+                        {% endif %}
+
+
+                        <span title="{{ img_title|t }}" data-credits="{{ photo_title|t }}" data-design="{{ design_title|t }}" data-check="press" href="{{ landing_full_img|file_url }}">
+                            <div class="data-desc d-none">
+                                <p>{{ img_desc|t }}</p>
+                            </div>
+                            <div class="products-links d-none">
+                                {{ prod_details|t }}
+                            </div>
+                            <div class="leather-links d-none">
+                                {{ leather_details|t }}{{' '}}{{ add_leather_detials|t }}
+                            </div>
+                        </span>
+                    {% endfor %}          
+                </div>
+            {% endfor %}
+        </div>

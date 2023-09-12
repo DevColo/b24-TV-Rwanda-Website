@@ -1,0 +1,46 @@
+services:
+  twig_query.entry_service:
+    class: Drupal\twig_query\Service\EntryService
+    arguments:
+      $nodeService: '@twig_query.node_service'
+      $taxonomyService: '@twig_query.taxonomy_service'
+
+  twig_query.base_service:
+    abstract: true
+    class: Drupal\twig_query\Service\Base
+
+  twig_query.node_service:
+    parent: twig_query.base_service
+    class: Drupal\twig_query\Service\NodeService
+    arguments:
+      $queryRepository: '@twig_query.node_repository'
+
+  twig_query.taxonomy_service:
+    parent: twig_query.base_service
+    class: Drupal\twig_query\Service\TaxonomyService
+    arguments:
+      $queryRepository: '@twig_query.taxonomy_repository'
+
+  twig_query.twig_extension:
+    class: Drupal\twig_query\Twig\QueryExtension
+    arguments:
+      $entryService: '@twig_query.entry_service'
+    tags:
+      - { name: twig.extension }
+
+  twig_query.repository:
+    abstract: true
+    class: Drupal\twig_query\Repository\QueryRepository
+    arguments:
+      $connection: '@database'
+      $entityTypeManager: '@entity_type.manager'
+      $languageManager: '@language_manager'
+      $pagerManager: '@pager.manager'
+
+  twig_query.node_repository:
+    parent: twig_query.repository
+    class: Drupal\twig_query\Repository\NodeRepository
+
+  twig_query.taxonomy_repository:
+    parent: twig_query.repository
+    class: Drupal\twig_query\Repository\TaxonomyRepository

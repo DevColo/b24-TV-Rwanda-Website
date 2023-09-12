@@ -1,0 +1,11 @@
+<div class="node-limit">
+
+  {% set projects = query.entries
+    .type('project')
+    .limit(2)
+    .all() %}
+
+  --{{ projects|length }}--
+
+</div>
+

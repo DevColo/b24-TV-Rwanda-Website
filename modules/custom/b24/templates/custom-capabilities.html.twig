@@ -1,0 +1,210 @@
+{% if 'administrator' in user.getroles(TRUE) %}
+    <a title="Edit" class="edit-icon" href="{{ base_path }}/block/13"></a>
+{% endif %}
+
+{% if custom_cap_block.field_image.0 is defined and custom_cap_block.field_image.0 is not empty %}
+    <div class="capabilities-banner"  style="background-image:url({{custom_cap_block.field_image.0|file_url}})"></div>
+{% endif %}
+<div class="capabilities-sec width-medium" id="custom-newcap">
+    <div class="container" style="width:100% !important;">
+        <h1>{{ custom_cap_block.info.value|t }}</h1>
+        <div class="content-scrollspy">
+            {% if custom_cap_block.body.0 is defined and custom_cap_block.body.0 is not empty %}
+                {{ custom_cap_block.body.0.value|t }}
+            {% endif %}
+
+            <ul class="links-scrollspy" id="scroll-link">
+                {% if node_array is defined and node_array is not empty %}
+                {% for item in node_array %} 
+                    {% set anchor_tile = item.node.title.value|lower %}
+                    <li><a title="{{ item.node.title.value|t }}" href="#{{ anchor_tile|replace({" ":"-"}) }}">
+                    {{ item.node.title.value|t }}</a>
+                    </li>
+                {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+        <div data-spy="scroll" data-target="#scroll-link" data-offset="0">
+            {% set product_alt_image_array = [] %}
+            {% if node_array is defined and node_array is not empty %}
+                {% for item in node_array %}
+                    {% set anchor_tile = item.node.title.value|lower %}
+                <div class="link-content" id="{{ anchor_tile|replace({" ":"-"}) }}">
+                    {% if 'administrator' in user.getroles(TRUE) %}
+                        <a title="Edit" class="edit-icon" href="{{ base_path }}/node/{{item.node.nid.value}}/edit"></a>
+                    {% endif %}
+                    <div class="scrollspy-content">
+                        <a href="javascript:;" title="Return to top of page"><h2>{{ item.node.title.value|t }}</h2></a>
+                        <img class="{% if item.node.field_image_size_changes is defined and item.node.field_image_size_changes is not empty %}{{ item.node.field_image_size_changes.0.value }}{%endif%}" src="{% if item.node.field_hero_image is defined and item.node.field_hero_image is not empty %}{{ item.node.field_hero_image.0|file_url }} {%endif%}" alt="{{ item.node.title.value|t }}">
+
+                        {% if item.node.body is defined and item.node.body is not empty %}
+                            <p class="scrollspy-desc">{{ item.node.body.0.value|t }}</p>
+                        {% endif %}
+                        <div class="scrollspy-def">
+                            {% if item.node.field_custom_use_title is defined and item.node.field_custom_use_title is not empty %}
+                                <div class="wrapper">
+                                    <span class="left-heading">{{ item.node.field_custom_use_title.0.value|t }}</span>
+                                    {% if item.node.field_custom_use_desc is defined and item.node.field_custom_use_desc is not empty %}
+                                        <span class="right-content">{{ item.node.field_custom_use_desc.0.value|t }}</span>
+                                    {% endif %}
+                                     
+                                </div>
+                            {% endif %}
+
+                            {% if item.node.field_custom_leathers_title is defined and item.node.field_custom_leathers_title is not empty %}
+                                <div class="wrapper">
+                                    <span class="left-heading">{{ item.node.field_custom_leathers_title.0.value|t }}</span>
+                                    {% if item.node.field_custom_leathers_desc is defined and item.node.field_custom_leathers_desc is not empty %}
+                                            <span class="right-content">{{ item.node.field_custom_leathers_desc.0.value|t }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+
+                            {% if item.node.field_custom_patterns_title is defined and item.node.field_custom_patterns_title is not empty %}
+                                <div class="wrapper">
+                                    <span class="left-heading">{{ item.node.field_custom_patterns_title.0.value|t }}</span>
+                                    {% if item.node.field_custom_patterns_desc is defined and item.node.field_custom_patterns_desc is not empty %}
+                                        <span class="right-content">{{ item.node.field_custom_patterns_desc.0.value|t }}</span>
+                                    {% endif %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        {% if item.node.field_custom_large_image is defined and item.node.field_custom_large_image is not empty %}
+                            {% if item.node.field_custom_patterns_gallery_ti is defined and item.node.field_custom_patterns_gallery_ti is not empty %}
+                                {% set patterns_title = item.node.field_custom_patterns_gallery_ti.0.value %}
+                            {% else %}
+                                {% set patterns_title = 'View Patterns Gallery' %}
+                            {% endif %}
+                            <a href="javascript" title="{{ patterns_title|t }}" data-toggle="modal" data-target="#exampleModalCenter_{{item.node.nid.value}}" class="view-gallery">{{ patterns_title|t }}</a>
+                        {% endif %}
+
+                        {% if item.node.field_custom_specs_title is defined and item.node.field_custom_specs_title is not empty %}
+                            <div class="specification-scrollspy">
+                                <div class="download-specs">
+                                    <a class="btn btn-default" href="{{ item.node.field_custom_specs_documents.0|file_url }}" type="application/pdf" target="blank" title="Download PDF"><span>{{ 'download specs'|t }}</span></a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if item.node.field_custom_parameters_title is defined and item.node.field_custom_parameters_title is not empty %}
+                            <div class="scrollspy-list">
+                                <p>{{ item.node.field_custom_parameters_title.0.value|t }}</p>
+                                {% if item.node.field_custom_parameters_desc is defined and item.node.field_custom_parameters_desc is not empty %}
+                                    {{ item.node.field_custom_parameters_desc.0.value|t }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if item.node.field_slider_images is defined and item.node.field_slider_images is not empty %}
+                        <div class="story-slider">
+                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                <div class="carousel-inner">
+                                    {% for key, item in item.node.field_slider_images %}
+                                        {% if key == 0 %} 
+                                            {% set ac_class = 'active' %}
+                                        {% else %}
+                                            {% set ac_class = '' %}
+                                        {% endif %}
+                                            <div class="carousel-item {{ ac_class }}">
+                                                <div class="carousel-wrapper">
+                                                    <img class="d-block w-100" src="{{ item|file_url }}" alt="{{ key }} slide">
+                                                    <p class = "carousel-text">{{ item.title|t }}</p>
+                                                </div>
+                                            </div>
+                                    {% endfor %}
+                                </div>
+                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">{{ 'Previous'|t }}</span>
+                                </a>
+                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="sr-only">{{ 'Next'|t }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                    
+                    {% if item.node.field_landing_image is defined and item.node.field_landing_image is not empty %}
+                        <div class="story-slider">
+                            <img src="{{item.node.field_landing_image.0|file_url}}" alt="{{ item.node.title.value|t }}" class="img-fluid">
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="modal fade" id="exampleModalCenter_{{item.node.nid.value}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            
+                            <div class="modal-body">
+                                <div class="pattern-thumbs">
+                                    <div class="gallery-lightbox">
+                                        <div class="small-images">
+                                            <ul>
+                                                {% if item.node.field_custom_thumb_image is defined and item.node.field_custom_thumb_image is not empty %}
+                                                    {% for key, thumb_image in item.node.field_custom_thumb_image %}
+                                                        {% if key == 0 %} 
+                                                            {% set ac_class = 'active' %}
+                                                        {% else %}
+                                                            {% set ac_class = '' %}
+                                                        {% endif %}
+
+                                                        {% if item.node.field_custom_large_image is defined and item.node.field_custom_large_image is not empty %}
+                                                            {% set large_image = item.node.field_custom_large_image[key]|file_url %}
+                                                            {% set large_image_title = item.node.field_custom_large_image[key].title %}
+                                                            {% set large_image_alt = item.node.field_custom_large_image[key].alt %}
+                                                        {% else %}
+                                                            {% set large_image = '' %}
+                                                            {% set large_image_title = '' %}
+                                                            {% set large_image_alt = '' %}
+                                                        {% endif %}
+
+                                                        <li>
+                                                            <a href="javascript:void(0)" class="cb_product {{ ac_class }}" title="{{ thumb_image.title }}"><img src="{{ thumb_image|file_url }}" data-original="{{ large_image }}" data-title="{{ large_image_title }}" data-alt="{{ large_image_alt }}"></a>
+                                                        </li> 
+                                                {% endfor %}
+                                            {% endif %}
+                                            </ul>
+                                        </div>
+                                        <div class="pattern-img-details">
+                                            <div class="gallery-large">
+                                                {% if item.node.field_custom_large_image is defined and item.node.field_custom_large_image is not empty %}
+                                                <a class="inner-image" data-lightbox="roadtrip" rel="lightbox" href="{{ item.node.field_custom_large_image.0|file_url }}">
+                                                    <img src="{{ item.node.field_custom_large_image.0|file_url }}" alt="gallery-image">
+                                                </a>
+                                                <div class="img-details">
+                                                    <div class="img-zoom">
+                                                        <a href="{{ item.node.field_custom_large_image.0|file_url }}" rel="lightbox">{{'click to zoom'|t}}</a>
+                                                    </div>
+                                                    <span class="thumb-name">{{ item.node.field_custom_large_image.0.title }}</span>
+                                                   <p>{{ item.node.field_custom_large_image.0.alt|t }}</p>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .container{
+    width: 100% !important;
+}
+@media screen and (min-width: 1200px)
+.container {
+    max-width: 100% !important;
+}
+</style>

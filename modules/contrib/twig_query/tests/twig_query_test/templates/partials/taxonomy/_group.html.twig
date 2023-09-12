@@ -1,0 +1,21 @@
+<div class="term-group-or">
+
+  {% set projects = query.taxonomy
+    .type('tags')
+    .group([{name: 'Stargate'}, {name: 'Alpha'}], 'or')
+    .all() %}
+
+  --{{ projects|length }}--asd
+
+</div>
+
+<div class="term-group-and">
+
+  {% set projects = query.taxonomy
+    .type('tags')
+    .group([{name: 'Stargate'}, {tid: '4'}])
+    .all() %}
+
+  --{{ projects|length }}--fdas
+
+</div>

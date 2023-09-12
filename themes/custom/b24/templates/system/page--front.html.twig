@@ -1,0 +1,153 @@
+{{ page.header }} 
+
+{{page.home_page_slider}}
+
+{{page.home_page_content.featurednewsblock }}
+
+
+
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                {{ page.home_page_content.frontpagecontentblock }}
+{{ page.sidebar_first }}
+
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark pt-5 px-sm-3 px-md-5 mt-5">
+        <div class="row py-4">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Get In Touch</h5>
+                <p class="font-weight-medium"><i class="fa fa-map-marker-alt mr-2"></i>Kicukiro, Kigali, Rwanda</p>
+                <p class="font-weight-medium"><i class="fa fa-phone-alt mr-2"></i>+250785296570</p>
+                <p class="font-weight-medium"><i class="fa fa-envelope mr-2"></i><a href="mail:info@b24.rw">info@b24.rw</a></p>
+                <h6 class="mt-4 mb-3 text-white text-uppercase font-weight-bold">Follow Us</h6>
+                <div class="d-flex justify-content-start">
+                    <!-- <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#" target="_blank"><i class="fab fa-twitter"></i></a> -->
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://www.facebook.com/B24tvOnline?mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://www.tiktok.com/@b24tv.rw" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="https://instagram.com/b24tv.rw?utm_source=qr&igshid=ZDc4ODBmNjlmNQ%3D%3D" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square" href="https://www.youtube.com/@B24TV" target="_blank"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">{{'Popular News'|t}}</h5>
+                {% set popular_news = query.entries
+                   .where({field_featured_news: 1 })
+                   .limit(3)
+                    .all() %}
+
+                {% if popular_news is defined and popular_news is not empty %}
+                    {% for item in popular_news %}
+                    <div class="mb-3">
+                    <div class="mb-2">
+                        {% if item.field_entertainment_category is defined and item.field_entertainment_category is not empty %}
+                                                        {% set category = item.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.field_event_type is defined and item.field_event_type is not empty %}
+                                                        {% set category = item.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.field_sport_category is defined and item.field_sport_category is not empty %}
+                                                        {% set category = item.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.field_news_category is defined and item.field_news_category is not empty %}
+                                                        {% set category = item.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{category}}</a>
+                        <a class="text-body" href=""><small>{{ item.created.value|date('F j, Y') }}</small></a>
+                    </div>
+                    <a class="small text-body font-weight-medium" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.nid.value}) }}">{{ item.title.value|length > 35 ? item.title.value|t|slice(0, 35) ~ '...' : item.title.value|t }}</a>
+                </div>
+                    {% endfor %}
+                {% endif %}
+                
+            </div>
+
+            <div class="col-lg-2 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Recent News</h5>
+                {% set popular_news = query.entries
+                   .type('news')
+                   .where('status 1 ')
+                   .limit(3)
+                    .all() %}
+
+                {% if popular_news is defined and popular_news is not empty %}
+                    {% for item in popular_news %}
+                    <div class="mb-3">
+                    <div class="mb-2">
+                        {% if item.field_entertainment_category is defined and item.field_entertainment_category is not empty %}
+                                                        {% set category = item.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.field_event_type is defined and item.field_event_type is not empty %}
+                                                        {% set category = item.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.field_sport_category is defined and item.field_sport_category is not empty %}
+                                                        {% set category = item.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.field_news_category is defined and item.field_news_category is not empty %}
+                                                        {% set category = item.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                        <a class="badge badge-success text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{category}}</a>
+                        <a class="text-body" href=""><small>{{ item.created.value|date('F j, Y') }}</small></a>
+                    </div>
+                    <a class="small text-body font-weight-medium" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.nid.value}) }}">{{ item.title.value|length > 35 ? item.title.value|t|slice(0, 35) ~ '...' : item.title.value|t }}</a>
+                </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+
+            <div class="col-lg-5 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">{{'Categories'|t}}</h5>
+                <div class="m-n1">
+                    <a href="{{ base_path }}/news/africa" class="btn btn-sm btn-secondary m-1">{{'Africa'|t}}</a>
+                    <a href="{{ base_path }}/news/business" class="btn btn-sm btn-secondary m-1">{{'Business'|t}}</a>
+                    <a href="{{ base_path }}/news/health" class="btn btn-sm btn-secondary m-1">{{'Health'|t}}</a>
+                    <a href="{{ base_path }}/news/agriculture" class="btn btn-sm btn-secondary m-1">{{'Agriculture'|t}}</a>
+                    <a href="{{ base_path }}/news/international" class="btn btn-sm btn-secondary m-1">{{'International'|t}}</a>
+                    <a href="{{ base_path }}/news/love" class="btn btn-sm btn-secondary m-1">{{'Love'|t}}</a>
+                    <a href="{{ base_path }}/news/technology" class="btn btn-sm btn-secondary m-1">{{'Technology'|t}}</a>
+                    <a href="{{ base_path }}/news/rwanda" class="btn btn-sm btn-secondary m-1">{{'Rwanda'|t}}</a>
+                    <a href="{{ base_path }}/events/charity-event" class="btn btn-sm btn-secondary m-1">{{'Charity event'|t}}</a>
+                    <a href="{{ base_path }}/events/conference" class="btn btn-sm btn-secondary m-1">{{'Conference'|t}}</a>
+                    <a href="{{ base_path }}/events/festival" class="btn btn-sm btn-secondary m-1">{{'Festival'|t}}</a>
+                    <a href="{{ base_path }}/events/internal-corporate-event" class="btn btn-sm btn-secondary m-1">{{'Internal corporate event'|t}}</a>
+                    <a href="{{ base_path }}/events/networking-event" class="btn btn-sm btn-secondary m-1">{{'Networking event'|t}}</a>
+                    <a href="{{ base_path }}/events/product-launch-event" class="btn btn-sm btn-secondary m-1">{{'Product launch event'|t}}</a>
+                    <a href="{{ base_path }}/events/team-building-event" class="btn btn-sm btn-secondary m-1">{{'Team building event'|t}}</a>
+                    <a href="{{ base_path }}/events/trade-show" class="btn btn-sm btn-secondary m-1">{{'Trade show'|t}}</a>
+                    <a href="{{ base_path }}/events/workshop" class="btn btn-sm btn-secondary m-1">{{'Workshop'|t}}</a>
+                    <a href="{{ base_path }}/entertainment/comedy" class="btn btn-sm btn-secondary m-1">{{'Comedy'|t}}</a>
+                    <a href="{{ base_path }}/entertainment/concert" class="btn btn-sm btn-secondary m-1">{{'Concert'|t}}</a>
+                    <a href="{{ base_path }}/entertainment/dance" class="btn btn-sm btn-secondary m-1">{{'Dance'|t}}</a>
+                    <a href="{{ base_path }}/entertainment/drama" class="btn btn-sm btn-secondary m-1">{{'Drama'|t}}</a>
+                    <a href="{{ base_path }}/entertainment/game" class="btn btn-sm btn-secondary m-1">{{'Game'|t}}</a>
+                    <a href="{{ base_path }}/entertainment/karaoke" class="btn btn-sm btn-secondary m-1">{{'Karaoke'|t}}</a>
+                    <a href="{{ base_path }}/entertainment/music" class="btn btn-sm btn-secondary m-1">{{'Music'|t}}</a>
+                    <a href="{{ base_path }}/sport/basket-ball" class="btn btn-sm btn-secondary m-1">{{'Basket ball'|t}}</a>
+                    <a href="{{ base_path }}/sport/cycling" class="btn btn-sm btn-secondary m-1">{{'Cycling'|t}}</a>
+                    <a href="{{ base_path }}/sport/soccer" class="btn btn-sm btn-secondary m-1">{{'Soccer'|t}}</a>
+                    <a href="{{ base_path }}/sport/swimming" class="btn btn-sm btn-secondary m-1">{{'Swimming'|t}}</a>
+                    <a href="{{ base_path }}/sport/track-and-field" class="btn btn-sm btn-secondary m-1">{{'Track and field'|t}}</a>
+                    <a href="{{ base_path }}/sport/volley-ball" class="btn btn-sm btn-secondary m-1">{{'Volley ball'|t}}</a>
+                    <a href="{{ base_path }}/youtube-videos/comedy" class="btn btn-sm btn-secondary m-1">{{'Comedy'|t}}</a>
+                    <a href="{{ base_path }}/youtube-videos/interview" class="btn btn-sm btn-secondary m-1">{{'Interview'|t}}</a>
+                    <a href="{{ base_path }}/youtube-videos/music-video" class="btn btn-sm btn-secondary m-1">{{'Music video'|t}}</a>
+                    <a href="{{ base_path }}/youtube-videos/podcast" class="btn btn-sm btn-secondary m-1">{{'Podcast'|t}}</a>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
+        <p class="m-0 text-center">&copy; <a href="#">B24 TV</a>. {{'All Rights Reserved.'|t}} 
+        Design by <a href="https://instagram.com/dadamarielle?igshid=OGQ5ZDc2ODk2ZA==" target="_blank">{{'Marielle Mbavu'|t}}</a></p>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-square back-to-top"><i class="fa fa-arrow-up"></i></a>

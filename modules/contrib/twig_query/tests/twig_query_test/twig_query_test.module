@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Twig query test module.
+ */
+
+
+
+/**
+* Implements hook_page_bottom().
+*/
+function twig_query_test_page_bottom(array &$page_bottom) {
+  $page_bottom['twig_query_test']['#theme'] = 'twig_query_test';
+}
+
+/**
+ * Implements hook_theme().
+ */
+function twig_query_test_theme()
+{
+  return ['twig_query_test' => ['variables' => []]];
+}

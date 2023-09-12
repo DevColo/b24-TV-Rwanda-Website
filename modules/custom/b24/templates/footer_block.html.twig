@@ -1,0 +1,70 @@
+<section class="footer-section">
+        <div class="container">
+            <div class="row social-links">
+                <div class="col-sm-6 col-6">
+                    <div class="footer-logo"><img src="{{ base_path }}/{{ active_theme_path() }}/images/home/footer-logo_2x.png" alt="footer-logo"></div>
+                </div>
+                <div class="col-sm-6 col-6 text-right">
+                    <div class="social-logo">
+                        <a href="{{ social_icons.facebook_url }}" title="facebook"><img src="{{ base_path }}/{{ active_theme_path() }}/images/home/facebook_2x.png" alt="facebook">
+                        </a>
+                        <a href="{{ social_icons.twitter_url }}" title="twitter"><img src="{{ base_path }}/{{ active_theme_path() }}/images/home/twitter_2x.png" alt="twitter">
+                        </a>
+                        <a href="{{ social_icons.pinterest_url }}" title="pinterest"><img src="{{ base_path }}/{{ active_theme_path() }}/images/home/pinterest_2x.png" alt="pinterest">
+                        </a>
+                        <a href="{{ social_icons.instagram_url }}" title="instagram"><img src="{{ base_path }}/{{ active_theme_path() }}/images/home/instagram_2x.png" alt="instagram">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- footer product block -->
+                {% embed 'block--products.html.twig' %}
+                  {% block content %}{% endblock %}
+                {% endembed %}
+
+                <!-- footer resources block -->
+                {% embed 'block--resources.html.twig' %}
+                  {% block content %}{% endblock %}
+                {% endembed %}
+
+                <!-- footer about block -->
+                {% embed 'block--about.html.twig' %}
+                  {% block content %}{% endblock %}
+                {% endembed %}
+
+                <!-- footer connect block -->
+                {% embed 'block--connect.html.twig' %}
+                  {% block content %}{% endblock %}
+                {% endembed %}
+            </div>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-12 align-self-center text-md-left text-sm-center text-center">
+                        <p>{{ 'To the Trade Only.'|t }}</p>
+                    </div>
+                    <div class="col-md-4 col-sm-12 align-self-center text-md-center text-sm-center text-center">
+                        {{ social_icons.copyrightstext|t }}
+                    </div>
+                    <div class="col-md-4 col-sm-12 align-self-center text-md-right text-sm-center text-center">
+                        {{ drupal_menu('menu-footer-copyrights') }}
+                    </div>
+                </div>
+            </div>
+            <?php 
+                /*$block9 = module_invoke('block', 'block_view', '9');
+                print render($block9['content']);*/
+            ?>
+        </footer>
+        <footer class="knoll-collective">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 align-self-center text-md-center text-sm-center text-center">
+                        <p>{{ 'Part of the MillerKnoll collective'|t }}</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </section>

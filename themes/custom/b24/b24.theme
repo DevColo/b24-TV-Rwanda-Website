@@ -1,0 +1,56 @@
+<?php
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
+use Drupal\file\Entity\File;
+use Drupal\node\Entity\Node;
+
+function b24_preprocess(&$variables) {
+   global $base_url;
+   $variables['base_path'] = $base_url;
+   $activeTheme = \Drupal::theme()->getActiveTheme();
+   // Get the theme name.
+   $variables['active_theme'] = $activeTheme->getName();
+
+   $request = \Drupal::request();
+   $variables['http_referer'] = $request->server->get('HTTP_REFERER');
+   $variables['request_uri'] = $request->getRequestUri();
+   $variables['isHttps'] = $request->isSecure();
+   // Get the server name.
+   $variables['server_name'] = $request->getHost();
+
+   $current_path = \Drupal::service('path.current')->getPath();
+    $current_path_alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+    $host = explode('/', $current_path_alias);
+
+   
+   $user_id = \Drupal::currentUser()->id();
+   $variables['user_details'] = \Drupal::entityTypeManager()->getStorage('user')->load($user_id);
+
+    $messages_block = \Drupal\block\Entity\Block::load('messages');
+    $variables['messages'] = \Drupal::entityTypeManager()
+          ->getViewBuilder('block')
+          ->view($messages_block); 
+    
+}
+
+function b24_preprocess_html(&$variables) {
+   if (isset($_GET['subscriber_email']) && !empty($_GET['subscriber_email'])) {
+      dd($_GET['subscriber_email']);die;
+    }
+    
+}
+    
+function b24_preprocess_node(&$variables) {
+	if ($variables['node']->type[0]->target_id == 'news' || $variables['node']->type[0]->target_id == 'sports' || $variables['node']->type[0]->target_id == 'events' || $variables['node']->type[0]->target_id == 'entertainment') {
+		$nid = $variables['node']->nid->value;
+		$comments = \Drupal::database()->select('b24_news_comment','nc')->condition('node_id',$nid)->condition('status',1)->fields('nc')->execute()->fetchAll();
+
+		$variables['comments'] = $comments;
+	}
+}

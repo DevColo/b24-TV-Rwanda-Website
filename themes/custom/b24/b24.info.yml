@@ -1,0 +1,33 @@
+name: B24
+description: 'B24 TV Custom theme'
+type: theme
+package: Other
+core_version_requirement: ^8 || ^9
+
+libraries:
+  - b24/global-styling
+
+base theme: olivero
+
+regions:
+  header_menu:    Header Menu
+  header: Header
+  home_page_slider: Home Page Slider
+  home_page_content: Home Page Content
+  preface_first: Preface First
+  preface_middle: Preface Middle
+  preface_last: Preface Last
+  content_top: Content Top
+  content: Content
+  sidebar_first:  First Sidebar
+  help: Help
+  footer: Footer
+  footer_first: First Bottom
+  footer_second: Second Bottom
+  footer_third: Third Bottom
+  footer_menu: Footer Menus
+  contact_content: Contact Content
+  user_login_content: User Login Content
+  privacy_content: Privacy Request Content
+
+screenshot: b24-screenshot.png

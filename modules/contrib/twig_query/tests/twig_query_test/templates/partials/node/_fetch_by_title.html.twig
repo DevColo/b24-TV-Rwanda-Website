@@ -1,0 +1,9 @@
+<div class="node-fetch-by-title">
+
+  {% set stargate = query.entries
+    .type('project')
+    .where({title: 'Stargate'})
+    .all() %}
+
+  {{ stargate.0.title.0.value }}
+</div>

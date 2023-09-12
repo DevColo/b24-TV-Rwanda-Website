@@ -1,0 +1,106 @@
+# b24.press_page:
+#   path: '/about/the-company/press'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanPressPage'
+#     _title: 'Press'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.photo_gallery:
+#   path: '/resources/inspiration/photo-gallery'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanPhotoGallery'
+#     _title: 'Photo Gallery'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.product_list_page:
+#   path: '/products/for-floor-and-walls/outletsale'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanProductListPage'
+#     _title: 'Outlet Sale'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.custom_capabilities:
+#   path: '/upholstery-leather/custom-capabilities'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanCustomCapabilities'
+#     _title: 'Custom Capabilities'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.upholstery_leather_product_list_page:
+#   path: '/products/upholstery-leather/products/{ajax}'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanProductListPage'
+#     _title: 'Products'
+#   requirements:
+#     _permission: 'access content'
+#   options:
+#     no_cache: TRUE
+
+# b24.upholstery_leather_product_list_page_ajax:
+#   path: '/products/ajax'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanProductsAjax'
+#     _title: 'Products'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.product_detail:
+#   path: '/product/detail'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanCustomProductDetail'
+#     _title: 'Products'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.archived_limited_stock:
+#   path: '/archived-limited-stock'
+#   defaults:
+#     _form: '\Drupal\b24\Form\ProductsFilterForm'
+#     #_controller: '\Drupal\b24\Controller\B24CustomController::edelmanCustomProductDetail'
+#     _title: 'Archived Limited Stock'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.filter:
+#   path: '/filter'
+#   defaults:
+#     _form: '\Drupal\b24\Form\ProductsFilterForm'
+#     _title: 'filter form'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.upholstery_leather_product_color_list_page:
+#   path: '/products/upholstery-leather/bycolor-new/{ajax}'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanProductListPage'
+#     _title: 'By Color'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.upholstery_leather_product_color_list_page_ajax:
+#   path: '/bycolor-new/ajax'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanProductsAjax'
+#     _title: ''
+#   requirements:
+#     _permission: 'access content'
+
+# b24.leather_tiles_colors:
+#   path: '/products/for-floor-and-walls/leather-tiles/tile-color'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanLeatherTilesColors'
+#     _title: 'Leather tiles color view all'
+#   requirements:
+#     _permission: 'access content'
+
+# b24.register_professional_account:
+#   path: '/user/register/professional'
+#   defaults:
+#     _controller: '\Drupal\b24\Controller\B24CustomController::edelmanProfessionalUserForm'
+#     _title: 'User Register'
+#   requirements:
+#     _permission: 'access content'

@@ -1,0 +1,4 @@
+<div class="node-fetch-all">
+  {% set projects = query.entries.type('project').orderBy('created ASC').all() %}
+  {% for project in projects %} {{ project.title.0.value }} {% endfor %}
+</div>

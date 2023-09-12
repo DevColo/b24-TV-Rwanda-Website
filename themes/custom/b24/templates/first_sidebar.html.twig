@@ -1,0 +1,126 @@
+                <div class="col-lg-4">
+                    <!-- Social Follow Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Follow Us</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <a href="https://www.facebook.com/B24tvOnline?mibextid=ZbWKwL" target="_blank" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #39569E;">
+                                <i class="fab fa-facebook-f text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">Facebook</span>
+                            </a>
+                           <!--  <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #52AAF4;">
+                                <i class="fab fa-twitter text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Followers</span>
+                            </a> -->
+                           <!--  <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #0185AE;">
+                                <i class="fab fa-linkedin-in text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Connects</span>
+                            </a> -->
+                            <a href="https://instagram.com/b24tv.rw?utm_source=qr&igshid=ZDc4ODBmNjlmNQ%3D%3D" target="_blank" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #C8359D;">
+                                <i class="fab fa-instagram text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">Instagram</span>
+                            </a>
+                            <a href="https://www.youtube.com/@B24TV" target="_blank" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #DC472E;">
+                                <i class="fab fa-youtube text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">Youtube</span>
+                            </a>
+                            <a href="https://www.tiktok.com/@b24tv.rw" target="_blank" class="d-block w-100 text-white text-decoration-none" style="background: #055570;">
+                                <i class="fab fa-tiktok text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">Tik Tok</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Social Follow End -->
+
+                    <!-- Ads Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Advertisement</h4>
+                        </div>
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <a href=""><img class="img-fluid" src="{{base_url}}/{{active_theme_path()}}/img/rfmu.jpg" alt=""></a>
+                        </div>
+                    </div>
+                    <!-- Ads End -->
+
+                    <!-- Popular News Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Trending News</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            {% if trending_nodes is defined and trending_nodes is not empty %}
+                                {% for trending_news in trending_nodes %}
+                                    {% if trending_news.news.field_news_image is defined and trending_news.news.field_news_image is not empty %}
+                                        <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                            <img class="img-fluid" src="{{trending_news.news.field_news_image|file_url}}" alt="" style="height:110px !important">
+                                            <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                                <div class="mb-2">
+                                                    {% if trending_news.news.field_entertainment_category is defined and trending_news.news.field_entertainment_category is not empty %}
+                                                        {% set category = trending_news.news.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif trending_news.news.field_event_type is defined and trending_news.news.field_event_type is not empty %}
+                                                        {% set category = trending_news.news.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif trending_news.news.field_sport_category is defined and trending_news.news.field_sport_category is not empty %}
+                                                        {% set category = trending_news.news.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif trending_news.news.field_news_category is defined and trending_news.news.field_news_category is not empty %}
+                                                        {% set category = trending_news.news.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="#">{{ category }}</a>
+                                                    <a class="text-body" href=""><small>{{ trending_news.news.created.value|date('F j, Y') }}</small></a>
+                                                </div>
+                                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': trending_news.news.nid.value}) }}">{{ trending_news.news.title.value|length > 20 ? trending_news.news.title.value|t|slice(0, 20) ~ '...' : trending_news.news.title.value|t }}</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!-- Popular News End -->
+
+                    <!-- Newsletter Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Newsletter</h4>
+                        </div>
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            {{messages}}
+                            <p style="font-size: 14px;margin-bottom: 0;text-align: left;">{{'Subscribe to our news letter to receive notifications whenever we publish an article'|t}}</p>
+                            <div class="input-group mb-2" style="width: 100%;">
+                                {% set news_subscribers = drupal_form('Drupal\\b24\\Form\\B24NewsSubscribers') %}
+                                {{ news_subscribers }}
+                            </div>
+                            <!-- <small></small> -->
+                        </div>
+                    </div>
+                    <!-- Newsletter End -->
+
+                    <!-- Tags Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <div class="d-flex flex-wrap m-n1">
+                                <a href="{{base_path}}/news" class="btn btn-sm btn-outline-secondary m-1">News</a>
+                                <a href="{{base_path}}/entertainment" class="btn btn-sm btn-outline-secondary m-1">Entertainment</a>
+                                <a href="{{base_path}}/sports" class="btn btn-sm btn-outline-secondary m-1">Sports</a>
+                                <a href="{{base_path}}/events" class="btn btn-sm btn-outline-secondary m-1">Events</a>
+                                <a href="{{base_path}}/videos" class="btn btn-sm btn-outline-secondary m-1">Videos</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tags End -->
+                </div>
+
+<style type="text/css">
+    #news-subscribers{
+      display: inline-flex;
+    }
+     #news-subscribers label{
+        display: none;
+    }
+</style>

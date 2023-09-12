@@ -1,0 +1,175 @@
+{% set url = path("<current>") %}
+{% set host = url|split('/') %}
+
+{% set color = host.5|split('&') %}
+{% set colo_tid = color.7|split('=') %}
+{% set product_texture = color.3|split('=') %}
+{% set product_application = color.4|split('=') %}
+{# product_types = explode('=', $color[3]);#}
+{% set product_tags = color.5|split('=') %}
+{% set industry_use = color.6|split('=') %}
+
+    {% if host.1 == 'ads' %}
+       {% set type = 'ads' %}
+    {% endif %}
+
+    {% if host.3 == 'bycolor-new' %}
+        {% set type = 'bycolor' %}
+    {% endif %}
+    {% if host.3 == 'products' %}
+        {% set type = 'product' %}
+    {% endif %}
+
+   {% if type == 'product' %}
+      {% set main_div_class = "col-lg-9 col-md-9 col-sm-9 col-xs-12" %}
+      {% set div_class = 'product-wrap' %}
+   {% elseif type == 'bycolor' %}
+      {% set main_div_class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" %}
+      {% set div_class = 'color-product-wrap' %}
+   {% elseif type == 'ads' %}
+      {% set main_div_class = "col-lg-9 col-md-9 col-sm-9 col-xs-12" %}
+   {% elseif type == 'floor_and_wall_tiles' %}
+      {% set main_div_class = "col-lg-9 col-md-9 col-sm-9 col-xs-12 floorwalls" %}
+   {% elseif type == 'ads' %}
+      {% set main_div_class = "col-lg-9 col-md-9 col-sm-9 col-xs-12" %}
+   {% else %}
+      {% set main_div_class = "col-lg-12 col-md-12 col-sm-12 col-xs-12" %}
+   {% endif %}
+
+
+   <input type="hidden" name="aviation_link_val" class="page_argument_value" value="{{ host.2 }}"/>
+   <input type="hidden" name="product_link_val" class="product_argument_value" value="{{ host.1 }}"/>
+   <input type="hidden" name="remain_all_val" class="remain_all_val" value="{{ host.3 }}"/>
+   <input type="hidden" name="color_curr_id" class="color_curr_id" value="{{ colo_tid.1 }}"/>
+
+{% if type == 'bycolor' %}
+   <section class="color-product-wrap">
+         <div class="row">
+
+         {% for product_color in list_content.nodes %}
+
+         {% set current_url = path("<current>") %}
+{% set host = current_url|split('/') %}
+
+{% if product_color['#node'].field_color_code is defined and product_color['#node'].field_color_code is not empty %}
+  {% set colorcode = product_color['#node'].field_color_code.0.value %}
+{% else %}
+  {% set colorcode = '' %}
+{% endif %}
+
+{% if host.2 == 'last-chance' %}
+  {% set parent_title = product_color['#node'].field_main_product.entity.title.value %}
+  {# show_limitedstock = edelman_redesign_check_item_in_archived_inventory_by_colorcode($colorcode);#}
+  
+{% else %}
+  {% set parent_title = product_color['#node'].field_main_product.entity.title.value %}
+{% endif %}
+
+{% if page == false %}
+  {% set spinner_img_url = base_path~'/sites/default/files/loading/loader-icon.gif' %}
+
+  {% set field_colorway = '' %}
+  {%  if (request_type is defined and request_type is not empty) and request_type == 'archived_color_products' or host.2 == 'last-chance' %}
+    {% set square_class = "col-lg-3 col-md-3 col-sm-4 col-6 archive-limit-stock cls_"~colorcode %}
+
+  {% elseif host.3 == 'bycolor-new' or host.1 == 'bycolor-new' or host.1 == 'bycolor-page' %}
+    {% set nnid = product_color['#node'].nid.value %}
+
+    {% if product_color['#node'].field_colorway is defined and product_color['#node'].field_colorway is not empty %}
+      {% set field_colorway = product_color['#node'].field_colorway.0.target_id %}
+    {% else %}
+      {% set field_colorway = '' %}
+    {% endif %}
+
+    {% if product_color['#node'].field_product_types is defined and product_color['#node'].field_product_types is not empty %}
+      {% set field_product_types = product_color['#node'].field_product_types.0.target_id %}
+    {% else %}
+      {% set field_product_types = '' %}
+    {% endif %}
+
+    {% if product_color['#node'].field_associated_suitabilities is defined and product_color['#node'].field_associated_suitabilities is not empty %}
+      {% set use = product_color['#node'].field_associated_suitabilities.0.target_id %}
+    {% else %}
+      {% set use = '' %}
+    {% endif %}
+ 
+    {% if product_color['#node'].field_associated_types is defined and product_color['#node'].field_associated_types is not empty %}
+      {% set performance = product_color['#node'].field_associated_types.0.target_id %}
+    {% else %}
+      {% set performance = '' %}
+    {% endif %}
+
+    {% set square_class = "col-lg-2 col-md-3 col-sm-4 col-6 color-item nid-"~nnid~" "~"colorway-"~field_colorway~" "~" types-"~field_product_types~" "~"use-"~use~" "~"performance-"~performance~" "~"characteristics-"~performance %}
+  {% else %}
+    {% set square_class = "col-lg-4 col-md-4 col-sm-4 col-xs-4" %}
+  {% endif %}
+  
+  {% set product_220_image = "medium" %}
+
+  {% if product_color['#node'].field_product_image is defined and product_color['#node'].field_product_image is not empty %}
+    {% set pro_square_image_path = product_color['#node'].field_product_image.entity.uri.value|image_style(product_220_image) %}
+  {% else %}
+    {% set pro_square_image_path = '' %}
+  {% endif %}
+{% endif %}
+
+{% set path = path('entity.node.canonical', {'node': product_color['#node'].nid.value}) %}
+
+{% set count_res = product_color['#node']|length%}
+
+         {% if logged_in == true %}
+            <input type="hidden" value="{{ user.id }}" class="currentlogged_user">
+         {% endif %}
+         <div data-nid="{{product_color['#node'].nid.value}}" class="{{ square_class }}" field_colorway="{{ field_colorway }}" >
+              <img class="load_spinner_img" src="{{ spinner_img_url }}" style="display:none;"/>
+              <figure>
+                  <a href="{{base_path}}/{{path}}"><img  data-ing="{{ pro_square_image_path }}" src="{{ spinner_img_url }}" class="img-fluid product-colors-img" alt="{{ product_color['#node'].title.value }}" title="{{ product_color['#node'].title.value }}"></a>
+                  {% if host.2 == 'last-chance' %}
+                      {#<?php /* if (isset($product_color['#node']->field_show_it_as_a_limited_stock['und'][0]['value']) && $product_color['#node']->field_show_it_as_a_limited_stock['und'][0]['value'] == 1): */ ?>#}
+                          <div class="special-offer-type splorder limited_stock" style="display:none;">
+                            <a class="specialTooltip" rel="popover" data-placement="top" data-trigger="hover" data-content="These special archival products are sold as is and all sales are final, with no returns or refunds. $10.00 sf for this limited stock only. All other orders are considered a custom order." data-original-title="" title="">
+                            {{ 'Limited Stock'|t }}</a>
+                          </div>
+                      {#<?php //endif; ?>#}
+                  {% endif %}
+                  {% if product_color['#node'].field_show_speciality_tag is defined and product_color['#node'].field_show_speciality_tag is not empty and product_color['#node'].field_show_speciality_tag.0.value == 1 %}
+                      <div class="specialty-tag" title="Minimum quantities apply. Please contact your sales representative.">Specialty</div>
+                  {% endif %}
+
+                  {% if product_color['#node'].field_add_new_product_color is defined and product_color['#node'].field_add_new_product_color is not empty and product_color['#node'].field_add_new_product_color.0.value == 1 %}
+                      <div class="product-zoom-type new-pro">{{ 'New!'|t }}</div> 
+                  {% endif %}
+              </figure>
+              <figcaption>
+                  <h6>{{ parent_title }}</h6>
+                  <span>{{ product_color['#node'].title.value }}</span>
+                  {% if product_color['#node'].field_available_square_feets is defined and product_color['#node'].field_available_square_feets is not empty %}
+                      <span class="available_sqft">{{ product_color['#node'].field_available_square_feets.0.value~" sq ft available" }}</span>
+                  {% endif %}
+              </figcaption>
+              {% if host.2 == 'last-chance' %}
+                  <div class="list-view-description">
+                      <div class="product-h1">
+                          {{ parent_title~' - '~product_color['#node'].title.value }}
+                      </div>
+                      {% if product_color['#node'].body %}
+                        {{ product_color['#node'].body|t }}
+                      {% endif %}
+                      <div class="product-more"><a href="{{ url }}" class="btn btn-brown">{{ 'More Details'|t }}</a></div>  
+                  </div>
+              {% endif %}
+          </div> 
+         {% endfor %}
+         </div>
+    </section>
+{% elseif type == 'product' %}
+ <section class="product-wrap">
+      <div class="">
+        <div class="row">
+        {% for product in product_list %}
+            {{ product }}
+        {% endfor %}
+        </div>
+      </div>
+</section>
+{% endif %}

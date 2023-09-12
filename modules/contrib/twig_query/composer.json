@@ -1,0 +1,17 @@
+{
+    "name": "drupal/twig_query",
+    "type": "drupal-module",
+    "description": "A Twig extension with some useful functions and filters for Drupal development.",
+    "keywords": ["Drupal", "Twig", "Query"],
+    "license": "GPL-2.0+",
+    "require": {
+        "drupal/core": "^8.7 || ^9.0 || ^10",
+        "twig/twig": "^1.41 || ^2.12"
+    },
+    "scripts": {
+        "post-install-cmd": "rm -rf .git"
+    },
+    "suggest": {
+        "symfony/var-dumper": "Better dump() function for debugging Twig variables"
+    }
+}

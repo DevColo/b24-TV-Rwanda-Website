@@ -1,0 +1,15 @@
+name: Twig query test
+type: module
+description: Support module for Twig query testing.
+package: Testing
+core: 8.x
+core_version_requirement: ^8 || ^9
+dependencies:
+  - drupal:system (>= 8.7.0)
+  - drupal:node
+  - drupal:taxonomy
+
+# Information added by Drupal.org packaging script on 2022-09-12
+version: '1.0.4'
+project: 'twig_query'
+datestamp: 1662968545

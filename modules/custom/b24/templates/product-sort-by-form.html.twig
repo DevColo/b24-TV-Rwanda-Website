@@ -1,0 +1,101 @@
+{#
+/**
+ * @file
+ * Default theme implementation for displaying Product Filter form.
+ *
+ * This template to display the Products Filter Form 
+ */
+#}
+
+
+{% set host = url|split('/') %}
+
+    {% if isHttps == true %}
+        {% set new_url = "https://"~server_name~request_uri %}
+    {% else %}
+        {% set new_url = "http://"~server_name~request_uri %}
+    {% endif %}
+
+    {#{% set parsedUrl = new_url|tweak_parse_url %}#}
+    
+    {% set path_parts = request_uri|split('/') %}
+    {% set user = path_parts.3 %}
+
+
+
+
+{% if active_theme == 'edelman' %}
+
+    {% if host.3 != 'floor-and-wall-tiles' %}
+    <div class="sort-by">
+        <select class="custom-select products-combo" placeholder="Enter a product name" name="products" labelPosition="top" style="width:100%;">
+            
+        </select>
+        {#<!-- <div class="sort-by-text">Sort by</div>     -->
+        <?php  //print render($form['product_sort_by']);?>#}
+    </div>
+        
+    {#<!-- <div class="product_pager">
+        <?php  //print render($form['pager']); ?>
+    </div> -->#}
+    {% endif %}
+    
+    {#<?php //if (arg(2) != 'archived-color-products'):?>#}
+    <div class="view-list-grid">                                
+        <a class="view-grid" href="#"><img src="{{ base_path}}/{{ active_theme_path() }}/images/view-grid-a.png'; ?>"></a>
+        <a class="view-list" href="#"><img src="{{ base_path}}/{{ active_theme_path() }}/images/view-list.png'; ?>"></a>
+    </div>
+    {#<?php //endif;?>#}
+    {% if host.3 != 'floor-and-wall-tiles' %}                       
+    <div class="share_print">
+        <ul class="topLi">
+            <li><a href="javascript:void(0);" class="clsShare">{{ 'Share'|t }}</a>
+                <ul class="share_popup_list clsShareList" style="display: none;">
+                    <li><span class='st_pinterest' displayText='Pin it'></span></li>
+                    <li><span class='st_facebook' displayText='Like it'></span></li>
+                    <li><span class='st_twitter' displayText='Tweet it'></span></li>
+                    <li><span class='st_email' displayText='Email it'></span></li>
+                </ul>
+            </li>
+            <li><a href="javascript:void(0);" class="clsPrint">{{ 'Print'|t }}</a></li>
+            {#<!-- <?php /*if($user->uid != 0): ?>
+                <li>
+                    <a href="javascript:void(0);" class="clsSave" data-nid="<?php //print $node->nid;?>">
+                        <?php// if(edelman_custom_check_product_exits_favorites($node->nid) == 'A'): 
+                              //      print t('Save'); 
+                               // else: 
+                              //      print t('Saved'); 
+                             //   endif;
+                        ?>
+                    </a>
+                </li>
+            <?php// else: ?>
+                <li><a href="javascript:void(0);" class="clsSaveLogoff">{{ 'Save'|t }} </a></li>
+            <?php //endif; */?> -->#}
+        </ul>
+    </div>
+    <!-- <div class="view-by">
+        <div class="view-by-text">View</div>
+        <?php //print render($form['product_view_by']); ?>  
+    </div> -->
+    {% endif %}
+{% elseif active_theme == 'edelmanredesign' %}
+    <!--<div class="grid-list-wrap">
+        <ul>
+            <li><a href="javascript:;" class="grid-view-btn active" title="Grid"></a></li>
+            <li><a href="javascript:;" class="list-view-btn" title="List"></a></li>
+        </ul>
+    </div>-->
+    
+    {% if host.3 != 'floor-and-wall-tiles' %}
+    <div class="input-section browse-product">
+        {% if host.3 == 'bycolor-new' %}
+            {% set place_holder = 'Enter a color name' %}
+        {% else %}
+            {% set place_holder = 'Enter a product name' %}
+        {% endif %}
+        <select class="custom-selects products-combo" placeholder="{{ place_holder }}" name="products" labelPosition="top" style="width:100%;">
+        </select>
+    </div>
+    {% endif %}
+{% endif %}

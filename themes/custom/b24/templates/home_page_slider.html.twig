@@ -1,0 +1,81 @@
+<!-- Main News Slider Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-7 px-0">
+                <div class="owl-carousel main-carousel position-relative">
+                    {% if slider_nodes is defined and slider_nodes is not empty %}
+                        {% for s_node in slider_nodes %}
+                            {% if s_node.news.field_news_image is defined and s_node.news.field_news_image is not empty %}
+                                <div class="position-relative overflow-hidden" style="height: 500px;">
+                                    <img class="img-fluid h-100" src="{{s_node.news.field_news_image|file_url}}" style="object-fit: cover;">
+                                    <div class="overlay">
+                                        <div class="mb-2">
+                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                                href="">{{ s_node.news.field_news_category.0.entity.name.value|t }}</a>
+                                            <a class="text-white" href="">{{ s_node.news.created.value|date('F j, Y') }}</a>
+                                        </div>
+                                        <a class="h2 m-0 text-white text-uppercase font-weight-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': s_node.news.nid.value}) }}">{{ s_node.news.title.value|t }}</a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-lg-5 px-0">
+                <div class="row mx-0">
+                    {% if non_slider_nodes is defined and non_slider_nodes is not empty %}
+                        {% for n_s_node in non_slider_nodes %}
+                            {% if n_s_node.news.field_news_image is defined and n_s_node.news.field_news_image is not empty %}
+                                <div class="col-md-6 px-0">
+                                    <div class="position-relative overflow-hidden" style="height: 250px;">
+                                        <img class="img-fluid w-100 h-100" src="{{n_s_node.news.field_news_image|file_url}}" style="object-fit: cover;">
+                                        <div class="overlay">
+                                            <div class="mb-2">
+                                                {% if n_s_node.news.field_entertainment_category is defined and n_s_node.news.field_entertainment_category is not empty %}
+                                                    {% set category = n_s_node.news.field_entertainment_category.0.entity.name.value|t %}
+                                                {% elseif n_s_node.news.field_event_type is defined and n_s_node.news.field_event_type is not empty %}
+                                                    {% set category = n_s_node.news.field_event_type.0.entity.name.value|t %}
+                                                {% elseif n_s_node.news.field_sport_category is defined and n_s_node.news.field_sport_category is not empty %}
+                                                    {% set category = n_s_node.news.field_sport_category.0.entity.name.value|t %}
+                                                {% else %}
+                                                    {% set category = '' %}
+                                                {% endif %}
+                                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                                    href="#">{{ category }}</a>
+                                                <a class="text-white" href=""><small>{{ n_s_node.news.created.value|date('F j, Y') }}</small></a>
+                                            </div>
+                                            <a class="h6 m-0 text-white text-uppercase font-weight-semi-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': n_s_node.news.nid.value}) }}">{{ n_s_node.news.title.value|t }}</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Main News Slider End -->
+
+
+    <!-- Breaking News Start -->
+    <div class="container-fluid bg-dark py-3 mb-3">
+        <div class="container">
+            <div class="row align-items-center bg-dark">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <div class="bg-primary text-dark text-center font-weight-medium py-2" style="width: 170px;">{{'Breaking News'|t}}</div>
+                        <div class="owl-carousel tranding-carousel position-relative d-inline-flex align-items-center ml-3" style="width: calc(100% - 170px); padding-right: 90px;">
+                            {% if breaking_nodes is defined and breaking_nodes is not empty %}
+                                {% for breaking_news in breaking_nodes %}
+                                    <div class="text-truncate"><a class="text-white text-uppercase font-weight-semi-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': breaking_news.news.nid.value}) }}">{{ breaking_news.news.title.value|t }}</a></div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breaking News End -->

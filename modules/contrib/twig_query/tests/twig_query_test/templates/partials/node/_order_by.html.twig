@@ -1,0 +1,22 @@
+<div class="node-order-by-asc">
+
+  {% set projects = query.entries
+    .type('project')
+    .orderBy('title ASC')
+    .all() %}
+
+
+  {{ projects|map(item => item.title.0.value)|join }}
+
+</div>
+
+<div class="node-order-by-desc">
+
+  {% set projects = query.entries
+    .type('project')
+    .orderBy('title DESC')
+    .all() %}
+
+  {{ projects|map(item => item.title.0.value)|join }}
+
+</div>

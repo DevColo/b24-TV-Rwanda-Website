@@ -1,0 +1,4 @@
+<div class="terms-fetch-all">
+  {% set tags = query.taxonomy.type('tags').all() %}
+  {% for tag in tags %} {{ tag.name.0.value }} {% endfor %}
+</div>

@@ -1,0 +1,237 @@
+<div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="section-title">
+                                <h4 class="m-0 text-uppercase font-weight-bold">Latest News</h4>
+                                <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                            </div>
+                        </div>
+                    {% if first_large_nodes is defined and first_large_nodes is not empty %}
+                        {% for item in first_large_nodes %}
+                            {% if item.news.field_news_image is defined and item.news.field_news_image is not empty %}
+                                <div class="col-lg-6">
+                                    <div class="position-relative mb-3">
+                                        <img class="img-fluid w-100" src="{{item.news.field_news_image|file_url}}" style="object-fit: cover;width: 364px !important;height: 226px;">
+                                        <div class="bg-white border border-top-0 p-4">
+                                            <div class="mb-2">
+                                                {% if item.news.field_entertainment_category is defined and item.news.field_entertainment_category is not empty %}
+                                                        {% set category = item.news.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_event_type is defined and item.news.field_event_type is not empty %}
+                                                        {% set category = item.news.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_sport_category is defined and item.news.field_sport_category is not empty %}
+                                                        {% set category = item.news.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_news_category is defined and item.news.field_news_category is not empty %}
+                                                        {% set category = item.news.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                                    href="">{{ category }}</a>
+                                                <a class="text-body" href=""><small>{{ item.news.created.value|date('F j, Y') }}</small></a>
+                                            </div>
+                                            <a class=" d-block mb-0 text-secondary" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.news.nid.value}) }}">{{ item.news.title.value|length > 30 ? item.news.title.value|t|slice(0, 30) ~ '...' : item.news.title.value|t }}</a>
+                                        </div>
+                                        <!-- <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                                            <div class="d-flex align-items-center">
+                                                <img class="rounded-circle mr-2" src="{{base_url}}/{{active_theme_path()}}/img/user.jpg" width="25" height="25" alt="">
+                                                <small>John Doe</small>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <small class="ml-3"><i class="far fa-eye mr-2"></i>12345</small>
+                                                <small class="ml-3"><i class="far fa-comment mr-2"></i>123</small>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                
+                    <div class="col-lg-6">
+                        {% if first_small_nodes is defined and first_small_nodes is not empty %}
+                            {% for key,item in first_small_nodes %}
+                            {% if key <= 1 %}
+                                {% if item.news.field_news_image is defined and item.news.field_news_image is not empty %}
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{{item.news.field_news_image|file_url}}" alt="" style="height: 110px;width: 110px;">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        {% if item.news.field_entertainment_category is defined and item.news.field_entertainment_category is not empty %}
+                                                        {% set category = item.news.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_event_type is defined and item.news.field_event_type is not empty %}
+                                                        {% set category = item.news.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_sport_category is defined and item.news.field_sport_category is not empty %}
+                                                        {% set category = item.news.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_news_category is defined and item.news.field_news_category is not empty %}
+                                                        {% set category = item.news.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ category }}</a>
+                                        <a class="text-body" href=""><small>{{ item.news.created.value|date('F j, Y') }}</small></a>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.news.nid.value}) }}">{{ item.news.title.value|length > 20 ? item.news.title.value|t|slice(0, 20) ~ '...' : item.news.title.value|t }}</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+
+                    <div class="col-lg-6">
+                        {% if first_small_nodes is defined and first_small_nodes is not empty %}
+                            {% for key,item in first_small_nodes %}
+                            {% if key > 1 and key <= 3 %}
+                                {% if item.news.field_news_image is defined and item.news.field_news_image is not empty %}
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{{item.news.field_news_image|file_url}}" alt="" style="height: 110px;width: 110px;">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        {% if item.news.field_entertainment_category is defined and item.news.field_entertainment_category is not empty %}
+                                                        {% set category = item.news.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_event_type is defined and item.news.field_event_type is not empty %}
+                                                        {% set category = item.news.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_sport_category is defined and item.news.field_sport_category is not empty %}
+                                                        {% set category = item.news.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_news_category is defined and item.news.field_news_category is not empty %}
+                                                        {% set category = item.news.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ category }}</a>
+                                        <a class="text-body" href=""><small>{{ item.news.created.value|date('F j, Y') }}</small></a>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.news.nid.value}) }}">{{ item.news.title.value|length > 20 ? item.news.title.value|t|slice(0, 20) ~ '...' : item.news.title.value|t }}</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                     
+
+                    
+                    
+                       
+                        <div class="col-lg-12 mb-3">
+                            <a href=""><img class="img-fluid w-100" src="{{base_url}}/{{active_theme_path()}}/img/ads-728x90.png" alt=""></a>
+                        </div>
+
+                        {% if second_large_nodes is defined and second_large_nodes is not empty %}
+                            {% for key,item in second_large_nodes %}
+                                {% if item.news.field_news_image is defined and item.news.field_news_image is not empty %}
+                        <div class="col-lg-12">
+                            <div class="row news-lg mx-0 mb-3">
+                                <div class="col-md-6 h-100 px-0">
+                                    <img class="img-fluid h-100" src="{{ item.news.field_news_image|file_url }}" style="object-fit: cover;">
+                                </div>
+                                <div class="col-md-6 d-flex flex-column border bg-white h-100 px-0">
+                                    <div class="mt-auto p-4">
+                                        <div class="mb-2">
+                                            {% if item.news.field_entertainment_category is defined and item.news.field_entertainment_category is not empty %}
+                                                        {% set category = item.news.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_event_type is defined and item.news.field_event_type is not empty %}
+                                                        {% set category = item.news.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_sport_category is defined and item.news.field_sport_category is not empty %}
+                                                        {% set category = item.news.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_news_category is defined and item.news.field_news_category is not empty %}
+                                                        {% set category = item.news.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                                href="">{{ category }}</a>
+                                            <a class="text-body" href=""><small>{{ item.news.created.value|date('F j, Y') }}</small></a>
+                                        </div>
+                                        <a class="h4 d-block mb-3 text-secondary" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.news.nid.value}) }}">{{ item.news.title.value|length > 30 ? item.news.title.value|t|slice(0, 30) ~ '...' : item.news.title.value|t }}</a>
+                                        <p class="m-0">
+                                            {% set news_body = item.news.body.value|t|striptags %}
+                                            {#{news_body}#}
+                                            {{ news_body|length > 100 ? news_body|slice(0, 100) ~ '...' : news_body }}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between bg-white border-top mt-auto p-4">
+                                        <div class="d-flex align-items-center">
+                                            <img class="rounded-circle mr-2" src="{{ item.news.uid.entity.user_picture|file_url }}" width="25" height="25" alt="">
+                                            <small>{{item.news.uid.entity.name.value}}</small>
+                                        </div>
+                                        <!-- <div class="d-flex align-items-center">
+                                            <small class="ml-3"><i class="far fa-eye mr-2"></i>12345</small>
+                                            <small class="ml-3"><i class="far fa-comment mr-2"></i>123</small>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="col-lg-6">
+                        {% if second_small_nodes is defined and second_small_nodes is not empty %}
+                            {% for key,item in second_small_nodes %}
+                            {% if key <= 1 %}
+                                {% if item.news.field_news_image is defined and item.news.field_news_image is not empty %}
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{{item.news.field_news_image|file_url}}" alt="" style="height: 110px;width: 110px;">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        {% if item.news.field_entertainment_category is defined and item.news.field_entertainment_category is not empty %}
+                                                        {% set category = item.news.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_event_type is defined and item.news.field_event_type is not empty %}
+                                                        {% set category = item.news.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_sport_category is defined and item.news.field_sport_category is not empty %}
+                                                        {% set category = item.news.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_news_category is defined and item.news.field_news_category is not empty %}
+                                                        {% set category = item.news.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ category }}</a>
+                                        <a class="text-body" href=""><small>{{ item.news.created.value|date('F j, Y') }}</small></a>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.news.nid.value}) }}">{{ item.news.title.value|length > 20 ? item.news.title.value|t|slice(0, 20) ~ '...' : item.news.title.value|t }}</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+
+                    <div class="col-lg-6">
+                        {% if second_small_nodes is defined and second_small_nodes is not empty %}
+                            {% for key,item in second_small_nodes %}
+                            {% if key > 1 and key <= 3 %}
+                                {% if item.news.field_news_image is defined and item.news.field_news_image is not empty %}
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{{item.news.field_news_image|file_url}}" alt="" style="height: 110px;width: 110px;">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        {% if item.news.field_entertainment_category is defined and item.news.field_entertainment_category is not empty %}
+                                                        {% set category = item.news.field_entertainment_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_event_type is defined and item.news.field_event_type is not empty %}
+                                                        {% set category = item.news.field_event_type.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_sport_category is defined and item.news.field_sport_category is not empty %}
+                                                        {% set category = item.news.field_sport_category.0.entity.name.value|t %}
+                                                    {% elseif item.news.field_news_category is defined and item.news.field_news_category is not empty %}
+                                                        {% set category = item.news.field_news_category.0.entity.name.value|t %}
+                                                    {% else %}
+                                                        {% set category = '' %}
+                                                    {% endif %}
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ category }}</a>
+                                        <a class="text-body" href=""><small>{{ item.news.created.value|date('F j, Y') }}</small></a>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{{base_path}}{{ path('entity.node.canonical', {'node': item.news.nid.value}) }}">{{ item.news.title.value|length > 20 ? item.news.title.value|t|slice(0, 20) ~ '...' : item.news.title.value|t }}</a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+
+                    </div>
+                </div>

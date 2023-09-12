@@ -1,0 +1,152 @@
+
+{% if color_nodes_arr is defined and color_nodes_arr is not empty %}
+    {% for color_node in color_nodes_arr %}
+    
+        {% if color_node.type.value == 'accents_common' or color_node.type.value == 'accents_common_color' %}
+            <div class="cb_product">
+                <div class="cb_colorImg">
+                	{% if color_node.field_product_small_image is defined and color_node.field_product_small_image is not empty %}
+                    <a href="{{base_path}}/node/{{color_node.nid.value}}"><img src="{{color_node.field_product_small_image|file_url}}"></a>
+                    {% endif %}
+                    
+                    {% if color_node.field_sheepskins_serial_number.0.value is defined and color_node.field_sheepskins_serial_number.0.value is not empty %}
+                    	{% set serial = color_node.field_sheepskins_serial_number.0.value %}
+                    {% else %}
+                    	{% set serial = '' %}
+                    {% endif %}
+                    {% set full_title = color_node.title.value~'<br>'~serial %}
+
+                    {% set path = path('entity.node.canonical', {'node': color_node.nid.value}) %}
+
+                        <div class="cb_name"><a href="{{base_path}}/{{path}}">{{full_title}}</a></div>
+                </div>
+            </div>
+        {% else %}
+            <div class="cb_product">
+                <div class="cb_colorImg">
+                    {% if color_node.field_product_small_image is defined and color_node.field_product_small_image is not empty %}
+                    <a href="{{base_path}}/node/{{color_node.nid.value}}"><img src="{{color_node.field_product_small_image|file_url}}"></a>
+
+                    {% elseif color_node.field_product_image is defined and color_node.field_product_image is not empty %}
+                    <a href="{{base_path}}/node/{{color_node.nid.value}}"><img src="{{color_node.field_product_image|file_url}}"></a>
+                        
+                    {% endif %}
+                    <div class="cb_name">{{ link(color_node.title.value, base_path~'/node/'~color_node.nid.value) }}</div>
+                    {% if color_node.field_add_new_product_color is defined and color_node.field_add_new_product_color is not empty and color_node.field_add_new_product_color.0.value == 1 %}
+                            <div class="product-zoom-type new-pro">{{'New!'}}</div> 
+                        {% endif %}
+
+                </div>
+            </div>
+        {% endif %}
+	{% endfor %}
+{% endif %}
+
+{#####
+									<?php //start of profile installation list ?>
+<?php if(isset($variables['content']['image_nodes'])):
+		$image_nodes = $variables['content']['image_nodes'];
+	foreach($image_nodes as $image_node):
+		$image_node_arr = node_load($image_node);
+		//echo '<pre>';print_r($image_node_arr);exit;?>
+		<?php if(isset($image_node_arr->field_add_photo_1['und']['0']['uri']) && $image_node_arr->field_add_photo_1['und']['0']['uri'] != ''): ?>
+			<div class="cb_product cb_space">
+				<div class="cb_colorImg prof_install"><?php
+					$main_path = $image_node_arr->field_add_photo_1['und']['0']['uri'];
+						$main_fullpath = file_create_url($main_path);?>
+					<a href="<?php print $base_url.'/node/'.$image_node_arr->nid;?>"><img src="<?php print $main_fullpath;?>"></a>
+					<?php if(isset($image_node_arr->field_photo_title_1['und']['0']['value']) && $image_node_arr->field_photo_title_1['und']['0']['value'] != ''): 
+							$image_title1 = $image_node_arr->field_photo_title_1['und']['0']['value'];
+						 else:
+						 	if(isset($image_node_arr->title) && $image_node_arr->title != ''): 
+								$image_title1 = $image_node_arr->title;
+							endif; ?>
+					<?php endif; ?>
+					<div class="cb_name"><?php print l($image_title1,'node/'.$image_node_arr->nid);?></div>
+					
+				</div>
+			</div>
+		<?php endif; ?>
+		<?php if(isset($image_node_arr->field_add_photo_2['und']['0']['uri']) && $image_node_arr->field_add_photo_2['und']['0']['uri'] != ''): ?>
+			<div class="cb_product cb_space">
+				<div class="cb_colorImg prof_install">
+					<?php
+					$main_path1 = $image_node_arr->field_add_photo_2['und']['0']['uri'];
+						$main_fullpath1 = file_create_url($main_path1);?>
+					<a href="<?php print $base_url.'/node/'.$image_node_arr->nid;?>"><img src="<?php print $main_fullpath1;?>"></a>
+
+					<?php if(isset($image_node_arr->field_photo_title_2['und']['0']['value']) && $image_node_arr->field_photo_title_2['und']['0']['value'] != ''): 
+							$image_title2 = $image_node_arr->field_photo_title_2['und']['0']['value'];
+						 else:
+						 	if(isset($image_node_arr->title) && $image_node_arr->title != ''): 
+								$image_title2 = $image_node_arr->title;
+							endif; ?>
+					<?php endif; ?>
+					<div class="cb_name"><?php print l($image_title2,'node/'.$image_node_arr->nid);?></div>
+					
+				</div>
+			</div>
+		<?php endif; ?>
+		<?php if(isset($image_node_arr->field_add_photo_3['und']['0']['uri']) && $image_node_arr->field_add_photo_3['und']['0']['uri'] != ''): ?>
+			<div class="cb_product cb_space">
+				<div class="cb_colorImg prof_install">
+						<?php
+						$main_path2 = $image_node_arr->field_add_photo_3['und']['0']['uri'];
+						$main_fullpath2 = file_create_url($main_path2);?>
+					<a href="<?php print $base_url.'/node/'.$image_node_arr->nid;?>"><img src="<?php print $main_fullpath2;?>"></a>
+
+				<?php if(isset($image_node_arr->field_photo_title_3['und']['0']['value']) && $image_node_arr->field_photo_title_3['und']['0']['value'] != ''): 
+							$image_title3 = $image_node_arr->field_photo_title_3['und']['0']['value'];
+						 else:
+						 	if(isset($image_node_arr->title) && $image_node_arr->title != ''): 
+								$image_title3 = $image_node_arr->title;
+							endif; ?>
+				<?php endif; ?>
+					<div class="cb_name"><?php print l($image_title3,'node/'.$image_node_arr->nid);?></div>
+					
+				</div>
+			</div>
+		<?php endif; ?>
+		<?php if(isset($image_node_arr->field_add_photo_4['und']['0']['uri']) && $image_node_arr->field_add_photo_4['und']['0']['uri'] != ''): ?>
+			<div class="cb_product cb_space" >
+				<div class="cb_colorImg prof_install">
+					<?php
+						$main_path3 = $image_node_arr->field_add_photo_4['und']['0']['uri'];
+						$main_fullpath3 = file_create_url($main_path3);?>
+						<a href="<?php print $base_url.'/node/'.$image_node_arr->nid;?>"><img src="<?php print $main_fullpath3?>"></a>
+					<?php if(isset($image_node_arr->field_photo_title_4['und']['0']['value']) && $image_node_arr->field_photo_title_4['und']['0']['value'] != ''): 
+							$image_title4 = $image_node_arr->field_photo_title_4['und']['0']['value'];
+						 else:
+						 	if(isset($image_node_arr->title) && $image_node_arr->title != ''): 
+								$image_title4 = $image_node_arr->title;
+							endif; ?>
+					<?php endif; ?>
+					<div class="cb_name"><?php print l($image_title4,'node/'.$image_node_arr->nid);?></div>
+					
+				</div>
+			</div>
+		<?php endif; ?>
+		<?php if(isset($image_node_arr->field_add_photo_5['und']['0']['filename']) && $image_node_arr->field_add_photo_5['und']['0']['filename'] != ''): ?>
+			<div class="cb_product cb_space" >
+				<div class="cb_colorImg prof_install">
+					<?php
+						$main_path4 = $image_node_arr->field_add_photo_5['und']['0']['uri'];
+						$main_fullpath4 = file_create_url($main_path4);?>
+					<a href="<?php print $base_url.'/node/'.$image_node_arr->nid;?>"><img src="<?php print $main_fullpath4;?>"></a>
+					<?php if(isset($image_node_arr->field_photo_title_5['und']['0']['value']) && $image_node_arr->field_photo_title_5['und']['0']['value'] != ''): 
+							$image_title5 = $image_node_arr->field_photo_title_5['und']['0']['value'];
+						 else:
+						 	if(isset($image_node_arr->title) && $image_node_arr->title != ''): 
+								$image_title5 = $image_node_arr->title;
+							endif; ?>
+					<?php endif; ?>
+					<div class="cb_name"><?php print l($image_title5,'node/'.$image_node_arr->nid);?></div>
+				
+				</div>
+			</div>
+		<?php endif; ?>
+	<?php endforeach; ?>
+<?php endif; ?>
+#####}
+
+

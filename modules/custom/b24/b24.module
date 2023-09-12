@@ -1,0 +1,117 @@
+<?php
+
+use Drupal\Component\Utility\Unicode;
+
+function b24_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+	if ($form_id == 'user_form') {
+		$form['account']['mail']['#title'] = t('Email');
+		unset($form['account']['current_pass']);
+		unset($form['account']['pass']);
+		unset($form['account']['user_picture']);
+		unset($form['timezone']);
+		unset($form['contact']);
+		unset($form['user_picture']);
+		unset($form['account']['mail']);
+		//$form['account']['user_picture']['#title'] = t('Profile Photo');
+		//echo '<Pre>'; print_r($form['account']);
+	}
+    if ($form_id == 'news_subscribers') {
+        $form['#submit'][] = 'sendSubscriptionMail';
+        //dd($form);die;
+    }
+
+}
+
+function sendSubscriptionMail($form, $form_state){
+    //dd($form_state->getValues());die;
+    //$data = $form_state->getUserInput();
+    $data = $form_state->getValues();
+            // Send the user a mail if they provided an email
+    if(!empty($form_state->getValue('subscriber_email'))){
+        $mailManager = \Drupal::service('plugin.manager.mail');
+        $module = 'b24';
+        $key = 'news_subscription';
+        $to = $form_state->getValue('subscriber_email');
+
+
+        $params['subject'] =  "B24 TV Newsletter subscription";
+
+        $params['message_body'] = "";
+        $params['message_body'] .= '<p>Dear '.$data['subscriber_email'].',</p><br>';
+        $params['message_body'] .= '<p>Thanks for subscribing to our newsletter</p><br>';
+        $params['message_body'] .= '<p>Regards,</p><br>';
+        $params['message_body'] .= '<p>B24 TV</p>';
+
+
+        $langcode = \Drupal::currentUser()->getPreferredLangcode();
+        $send_result = $mailManager->mail($module, $key, $to, $langcode, $params, NULL, true);
+        if ($send_result['result'] !== true) {
+         $message = t('There was a problem sending your email notification to @email.', array('@email' => $to));
+          \Drupal::messenger()->addMessage($message, 'error');
+          \Drupal::logger('mail-log')->error($message);
+          return;
+        }
+        //else {
+          \Drupal::messenger()->addMessage(t('You have successfully subscribed to our newsletter'), 'status');
+        //}
+  }
+}
+
+  /*
+ * Implements hook_mail. 
+ */
+function b24_mail($key, &$message, $params) {
+ $options = array(
+   'langcode' => $message['langcode'],
+ );
+    switch ($key) {
+        case 'news_subscription':
+            $message['headers'] = [
+                'MIME-Version' => '1.0',
+                'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+                'Content-Transfer-Encoding' => '8Bit',
+                'X-Mailer' => 'Drupal',
+            ];
+            $message['from'] = \Drupal::config('system.site')->get('mail');
+            $message['subject'] = t('@subject', ['@subject' => $params['subject']], $options);
+            $message['body'][] = $params['message_body'];
+        break;
+    }
+}
+
+
+
+function b24_theme($existing, $type, $theme, $path){
+   
+    return [
+        'home_slider' => [
+            'variables' => [
+            	'non_slider_nodes' => NULL,
+            	'slider_nodes' => NULL,
+                'breaking_nodes' => NULL
+        	],
+            'template' =>'home_page_slider',
+        ],
+        'featured_news' => [
+            'variables' => [
+            	'featured_nodes' => NULL,
+        	],
+            'template' =>'featured_news',
+        ],
+        'first_sidebar' => [
+            'variables' => [
+                'trending_nodes' => NULL
+        	],
+            'template' =>'first_sidebar',
+        ],
+		'front_page_content' => [
+            'variables' => [
+            	'first_large_nodes' => NULL,
+            	'first_small_nodes' => NULL,
+            	'second_large_nodes' => NULL,
+            	'second_small_nodes' => NULL
+        	],
+            'template' =>'front_page_content',
+        ],
+    ];
+}

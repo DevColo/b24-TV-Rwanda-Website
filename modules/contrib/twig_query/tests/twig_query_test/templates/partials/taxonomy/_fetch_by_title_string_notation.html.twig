@@ -1,0 +1,9 @@
+<div class="term-fetch-by-title-string-notation">
+
+  {% set stargate = query.taxonomy
+    .type('tags')
+    .where('name Stargate')
+    .all() %}
+
+  {{ stargate.0.name.0.value }}
+</div>

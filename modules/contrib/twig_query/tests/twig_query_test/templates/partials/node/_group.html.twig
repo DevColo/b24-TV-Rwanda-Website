@@ -1,0 +1,21 @@
+<div class="node-group-or">
+
+  {% set projects = query.entries
+    .type('project')
+    .group([{title: 'Stargate'}, {title: 'Alpha'}], 'or')
+    .all() %}
+
+  --{{ projects|length }}--
+
+</div>
+
+<div class="node-group-and">
+
+  {% set projects = query.entries
+    .type('project')
+    .group([{title: 'Stargate'}, {type: 'project'}])
+    .all() %}
+
+  --{{ projects|length }}--
+
+</div>

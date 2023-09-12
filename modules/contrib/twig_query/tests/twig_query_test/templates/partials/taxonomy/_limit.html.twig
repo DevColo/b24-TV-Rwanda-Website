@@ -1,0 +1,11 @@
+<div class="term-limit">
+
+  {% set tags = query
+    .taxonomy
+    .type('tags')
+    .limit(2)
+    .all() %}
+
+  --{{ tags|length }}--
+
+</div>
